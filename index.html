@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="cn" xmlns:padding-top="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ILS编辑器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <style>
+        body{
+            background: black;
+        }
+        .dark_ui,textarea,input{
+            background-color: #2b2b2b;
+            background-color: #373737!important;
+            color: aliceblue!important;
+        }
+
+
+
+    </style>
+
+</head>
+<body >
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- Brand/logo -->
+    <a class="navbar-brand" href="#">ICREATORMC·ILS编辑工具</a>
+
+
+</nav>
+<div class="container-fluid" style="padding-top: 20px">
+    <div class="row">
+
+        <div class="col">
+            <div class="card dark_ui">
+                <div class="card-header">物品代码</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+
+                                <textarea class="form-control" rows="20" id="yaml_code"></textarea>
+
+                            </div>
+                            <button id="load" class="btn btn-primary">加载</button>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card dark_ui text-white">
+                <div class="card-header">编写LORES</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>物品ID(英文)</label>
+                        <input type="text" class="form-control" id="type">
+                    </div>
+                    <div class="form-group">
+                        <label>损毁值(注意，在某些时候是子ID，比如木板)</label>
+                        <input type="text" class="form-control" id="damage">
+                    </div>
+                    <div class="form-group">
+                        <label>显示名称</label>
+                        <input type="text" class="form-control" id="display">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>IORES</label>
+                        <textarea class="form-control" rows="20" id="lores"></textarea>
+                    </div>
+                    <button id="build" class="btn btn-primary">生成</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/esprima/2.7.3/esprima.min.js"></script>
+<script src="https://cdn.bootcss.com/js-yaml/3.12.0/js-yaml.min.js"></script>
+<script>
+    $('#load').click(function () {
+
+        var data = jsyaml.load($('#yaml_code').val());
+        console.log(data);
+        $('#type').val(data['Item']['type']);
+        $('#damage').val(data['Item']['damage']);
+        $('#display').val(data['Item']['meta']['display-name']);
+        var lores=data['Item']['meta']['lore'];
+        $('#lores').val('');
+        for(var x=0;x<lores.length;x++){
+            if (x == lores.length - 1) {
+
+                $('#lores').val($('#lores').val() + lores[x]);
+            } else {
+                $('#lores').val($('#lores').val() + lores[x] + "\n");
+            }
+
+        }
+    });
+    $('#build').click(function () {
+        var out_put=new Object();
+        out_put['Item']=new Object();
+        out_put['Item']['==']="org.bukkit.inventory.ItemStack";
+        out_put['Item']['type']=$('#type').val();
+        out_put['Item']['damage']=parseInt($('#damage').val());
+        out_put['Item']['meta']=new Object();
+        out_put['Item']['meta']['==']="ItemMeta";
+        out_put['Item']['meta']['meta-type']="UNSPECIFIC";
+        out_put['Item']['meta']['display-name']=$('#display').val();
+        out_put['Item']['meta']['lore']=$('#lores').val().replace(/&/g,"§").split("\n")
+        $('#yaml_code').val(jsyaml.dump(out_put));
+
+
+
+
+    });
+
+
+
+
+</script>
+</body>
+</html>
