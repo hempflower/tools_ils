@@ -68,16 +68,58 @@
                         <input type="text" class="form-control" id="display">
                     </div>
 
-
                     <div class="form-group">
                         <label>IORES</label>
                         <textarea class="form-control" rows="20" id="lores"></textarea>
+                        <button id="tips" class="btn btn-primary" data-toggle="modal" data-target="#tip">查看属性列表</button>
                     </div>
+
                     <button id="build" class="btn btn-primary">生成</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade " id="tip">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header dark_ui">
+                <h5 class="modal-title">属性列表</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body dark_ui">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th>属性</th>
+                        <th>颜色</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr><td>攻击力</td>    <td><input type="text" class="form-control" id="v_4"></td></tr>
+                    <tr><td>暴击几率</td>    <td><input type="text" class="form-control" id="v_5"></td></tr>
+                    <tr><td>暴击伤害</td>    <td><input type="text" class="form-control" id="v_6"></td></tr>
+                    <tr><td>生命值</td>    <td><input type="text" class="form-control" id="v_7"></td></tr>
+                    <tr><td>生命回复</td>    <td><input type="text" class="form-control" id="v_8"></td></tr>
+                    <tr><td>生命偷取</td>    <td><input type="text" class="form-control" id="v_9"></td></tr>
+                    <tr><td>荆棘</td>    <td><input type="text" class="form-control" id="v_10"></td></tr>
+                    <tr><td>火焰攻击</td>    <td><input type="text" class="form-control" id="v_11"></td></tr>
+                    <tr><td>寒冰攻击</td>    <td><input type="text" class="form-control" id="v_12"></td></tr>
+                    <tr><td>剧毒攻击</td>    <td><input type="text" class="form-control" id="v_13"></td></tr>
+                    <tr><td>凋零攻击</td>    <td><input type="text" class="form-control" id="v_14"></td></tr>
+                    <tr><td>极限打击</td>    <td><input type="text" class="form-control" id="v_15"></td></tr>
+                    <tr><td>致盲打击</td>    <td><input type="text" class="form-control" id="v_16"></td></tr>
+                    <tr><td>经验加成</td>    <td><input type="text" class="form-control" id="v_17"></td></tr>
+                    </tbody>
+                </table>
+
+        </div>
+    </div>
+</div>
 </div>
 
 <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
@@ -85,6 +127,7 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/esprima/2.7.3/esprima.min.js"></script>
 <script src="https://cdn.bootcss.com/js-yaml/3.12.0/js-yaml.min.js"></script>
+<script src="https://cdn.bootcss.com/autocomplete.js/0.33.0/autocomplete.jquery.min.js"></script>
 <script>
     $('#load').click(function () {
 
@@ -115,13 +158,39 @@
         out_put['Item']['meta']['==']="ItemMeta";
         out_put['Item']['meta']['meta-type']="UNSPECIFIC";
         out_put['Item']['meta']['display-name']=$('#display').val();
-        out_put['Item']['meta']['lore']=$('#lores').val().replace(/&/g,"§").split("\n")
+        var loreArr=$('#lores').val().replace(/&/g,"§").split("\n");
+        loreArr=getProlore().concat(loreArr);
+        loreArr.unshift('&e&m&l────&a&m&l───&2&m&l───&3&m&l───&b&m&l───&9&m&l───&1&m&l────');
+        out_put['Item']['meta']['lore']= loreArr.concat('&e&m&l───&a&m&l───&2&m&l───&8&l[&6&l属性&8&l]&3&m&l───&b&m&l───&9&m&l───');
+
         $('#yaml_code').val(jsyaml.dump(out_put));
-
-
-
-
     });
+
+
+    function getProlore() {
+        var tmp=new Array();
+        if($('#v_4').val()!="") tmp.push( "§3攻击力 §6"+$('#v_4').val()+'§r');
+        if($('#v_5').val()!="") tmp.push("§3暴击几率 §6"+$('#v_5').val()+'§r');
+        if($('#v_6').val()!="") tmp.push( "§3暴击伤害 §6"+$('#v_6').val()+'§r');
+        if($('#v_17').val()!="") tmp.push( "§3生命值 §6"+$('#v_7').val()+'§r');
+        if($('#v_8').val()!="") tmp.push( "§3生命回复 §6"+$('#v_8').val()+'§r');
+        if($('#v_9').val()!="") tmp.push( "§a生命偷取 §6"+$('#v_9').val()+'§r');
+        if($('#v_10').val()!="") tmp.push( "§e荆棘 §6"+$('#v_10').val()+'§r');
+        if($('#v_11').val()!="") tmp.push("§c火焰攻击 §6"+$('#v_11').val()+'§r');
+        if($('#v_12').val()!="") tmp.push( "§9寒冰攻击 §6"+$('#v_12').val()+'§r');
+        if($('#v_13').val()!="") tmp.push( "§2剧毒攻击 §6"+$('#v_13').val()+'§r');
+        if($('#v_14').val()!="") tmp.push( "§f凋零打击 §6"+$('#v_14').val()+'§r');
+        if($('#v_15').val()!="") tmp.push( "§5极限打击 §6"+$('#v_15').val()+'§r');
+        if($('#v_16').val()!="") tmp.push( "§7致盲攻击 §6"+$('#v_16').val()+'§r');
+        if($('#v_17').val()!="") tmp.push( "§d经验加成 §6"+$('#v_17').val()+'§r');
+
+
+
+        return tmp;
+    }
+
+
+
 
 
 
