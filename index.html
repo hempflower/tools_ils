@@ -158,10 +158,13 @@
         out_put['Item']['meta']['==']="ItemMeta";
         out_put['Item']['meta']['meta-type']="UNSPECIFIC";
         out_put['Item']['meta']['display-name']=$('#display').val();
-        var loreArr=$('#lores').val().replace(/&/g,"§").split("\n");
+        var loreArr=new Array();
+        if($('#lores').val()!=""){
+            loreArr=$('#lores').val().replace(/&/g,"§").split("\n");
+        }
         loreArr=getProlore().concat(loreArr);
-        loreArr.unshift('&e&m&l────&a&m&l───&2&m&l───&3&m&l───&b&m&l───&9&m&l───&1&m&l────');
-        out_put['Item']['meta']['lore']= loreArr.concat('&e&m&l───&a&m&l───&2&m&l───&8&l[&6&l属性&8&l]&3&m&l───&b&m&l───&9&m&l───');
+        loreArr.unshift('&e&m&l────&a&m&l───&2&m&l───&3&m&l───&b&m&l───&9&m&l───&1&m&l────'.replace(/&/g,"§"));
+        out_put['Item']['meta']['lore']= loreArr.concat('&e&m&l───&a&m&l───&2&m&l───&8&l[&6&l属性&8&l]&3&m&l───&b&m&l───&9&m&l───'.replace(/&/g,"§"));
 
         $('#yaml_code').val(jsyaml.dump(out_put));
     });
