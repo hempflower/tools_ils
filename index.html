@@ -132,6 +132,7 @@
                     <tr><td>极限打击</td>    <td><input type="text" class="form-control" id="v_15"></td></tr>
                     <tr><td>致盲打击</td>    <td><input type="text" class="form-control" id="v_16"></td></tr>
                     <tr><td>经验加成</td>    <td><input type="text" class="form-control" id="v_17"></td></tr>
+                    <tr><td>耐久</td>    <td><input type="text" class="form-control" id="v_18"></td></tr>
                     </tbody>
                 </table>
 
@@ -151,7 +152,7 @@
 
         var data = jsyaml.load($('#yaml_code').val());
         console.log(data);
-        $('#type').val(data['Item']['type']);
+        $('#type').val(data['Item']['type']).toUpperCase();
         $('#damage').val(data['Item']['damage']);
         $('#display').val(data['Item']['meta']['display-name']);
         var lores=data['Item']['meta']['lore'];
@@ -171,7 +172,7 @@
         out_put['Item']=new Object();
         out_put['Item']['==']="org.bukkit.inventory.ItemStack";
         out_put['Item']['type']=$('#type').val();
-        out_put['Item']['damage']=parseInt($('#damage').val());
+        if($('#damage').val()!="") out_put['Item']['damage']=parseInt($('#damage').val());
         out_put['Item']['meta']=new Object();
         out_put['Item']['meta']['==']="ItemMeta";
         out_put['Item']['meta']['meta-type']="UNSPECIFIC";
@@ -193,7 +194,7 @@
         if($('#v_4').val()!="") tmp.push( "§3攻击力 §6"+$('#v_4').val()+'§r');
         if($('#v_5').val()!="") tmp.push("§3暴击几率 §6"+$('#v_5').val()+'§r');
         if($('#v_6').val()!="") tmp.push( "§3暴击伤害 §6"+$('#v_6').val()+'§r');
-        if($('#v_17').val()!="") tmp.push( "§3生命值 §6"+$('#v_7').val()+'§r');
+        if($('#v_7').val()!="") tmp.push( "§3生命值 §6"+$('#v_7').val()+'§r');
         if($('#v_8').val()!="") tmp.push( "§3生命回复 §6"+$('#v_8').val()+'§r');
         if($('#v_9').val()!="") tmp.push( "§a生命偷取 §6"+$('#v_9').val()+'§r');
         if($('#v_10').val()!="") tmp.push( "§e荆棘 §6"+$('#v_10').val()+'§r');
@@ -204,18 +205,9 @@
         if($('#v_15').val()!="") tmp.push( "§5极限打击 §6"+$('#v_15').val()+'§r');
         if($('#v_16').val()!="") tmp.push( "§7致盲攻击 §6"+$('#v_16').val()+'§r');
         if($('#v_17').val()!="") tmp.push( "§d经验加成 §6"+$('#v_17').val()+'§r');
-
-
-
+        if($('#v_18').val()!="") tmp.push( "§6耐久度: §6"+$('#v_18').val()+'§r');
         return tmp;
     }
-
-
-
-
-
-
-
 </script>
 </body>
 </html>
